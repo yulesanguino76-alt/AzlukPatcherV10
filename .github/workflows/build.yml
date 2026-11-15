@@ -59,9 +59,11 @@ jobs:
             "platforms;android-${{ env.ANDROID_API_LEVEL }}" \
             "build-tools;${{ env.BUILD_TOOLS_VERSION }}"
 
-      # ── Gradle wrapper permissions ────────────────────────────────────────────
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      # ── Install Gradle directly (the committed wrapper JAR is empty) ──────────
+      - name: Set up Gradle 8.2
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.2'
 
       # ── Gradle cache ─────────────────────────────────────────────────────────
       - name: Cache Gradle packages
@@ -80,7 +82,7 @@ jobs:
           TOKENROUTER_API_KEY:  ${{ secrets.TOKENROUTER_API_KEY }}
           TOKENROUTER_BASE_URL: ${{ secrets.TOKENROUTER_BASE_URL }}
           TOKENROUTER_MODEL:    ${{ secrets.TOKENROUTER_MODEL }}
-        run: ./gradlew assembleDebug --stacktrace --no-daemon
+        run: gradle assembleDebug --stacktrace --no-daemon
 
       # ── Build release ─────────────────────────────────────────────────────────
       - name: Build Release APK
@@ -89,7 +91,7 @@ jobs:
           TOKENROUTER_API_KEY:  ${{ secrets.TOKENROUTER_API_KEY }}
           TOKENROUTER_BASE_URL: ${{ secrets.TOKENROUTER_BASE_URL }}
           TOKENROUTER_MODEL:    ${{ secrets.TOKENROUTER_MODEL }}
-        run: ./gradlew assembleRelease --stacktrace --no-daemon
+        run: gradle assembleRelease --stacktrace --no-daemon
 
       # ── Rename APK with version + commit ─────────────────────────────────────
       - name: Rename APK artifact
@@ -167,3 +169,4 @@ jobs:
             SIZE=$(du -sh "${APK_PATH}" | cut -f1)
             echo "| Size | $SIZE |" >> $GITHUB_STEP_SUMMARY
           fi
+          
