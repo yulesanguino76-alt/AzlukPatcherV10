@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -159,6 +160,7 @@ fun PatchPacksScreen(navController: NavController) {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun PackCard(pack: PatchPack, onApply: (Set<PatchType>) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
