@@ -148,7 +148,7 @@ fun AzlukApp(sysVm: SystemCheckViewModel) {
         ) {
             composable("home")    { HomeScreen(nav) }
             composable("patched") { PatchedFilesScreen(nav) }
-            composable("tools")   { ToolsScreen(nav) }
+            composable("tools")   { ToolsScreen(sysVm) }
             composable("packs")   { PatchPacksScreen(nav) }
             composable(
                 "detail/{pkg}",
